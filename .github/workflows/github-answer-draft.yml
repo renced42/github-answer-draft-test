@@ -20,7 +20,7 @@ jobs:
 
     steps:
       - name: Issue választervezet
-        uses: renced42/github-answer-draft-assistant@v1
+        uses: renced42/github-answer-draft-assistant@V1.3.0
         with:
           organization: nav-gov-hu
           event-kind: issue
@@ -57,7 +57,7 @@ jobs:
 
     steps:
       - name: Discussion választervezet
-        uses: renced42/github-answer-draft-assistant@v1
+        uses: renced42/github-answer-draft-assistant@V1.3.0
         with:
           organization: nav-gov-hu
           event-kind: discussion
