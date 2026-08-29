@@ -15,6 +15,9 @@ jobs:
   issue-draft:
     if: github.event_name == 'issues'
     runs-on: ubuntu-latest
+    environment:
+      name: Github assistant
+
     steps:
       - name: Issue választervezet
         uses: renced42/github-answer-draft-assistant@v1
@@ -31,6 +34,7 @@ jobs:
           ai-provider: ${{ vars.DRAFT_AI_PROVIDER || 'gemini' }}
           ai-model: ${{ vars.DRAFT_AI_MODEL || 'gemini-2.5-flash' }}
           mail-provider: ${{ vars.DRAFT_MAIL_PROVIDER || 'smtp' }}
+
         env:
           GITHUB_READ_TOKEN: ${{ secrets.ORG_READ_TOKEN }}
           GITHUB_TOKEN: ${{ github.token }}
@@ -48,6 +52,9 @@ jobs:
   discussion-draft:
     if: github.event_name == 'discussion'
     runs-on: ubuntu-latest
+    environment:
+      name: Github assistant
+
     steps:
       - name: Discussion választervezet
         uses: renced42/github-answer-draft-assistant@v1
@@ -64,6 +71,7 @@ jobs:
           ai-provider: ${{ vars.DRAFT_AI_PROVIDER || 'gemini' }}
           ai-model: ${{ vars.DRAFT_AI_MODEL || 'gemini-2.5-flash' }}
           mail-provider: ${{ vars.DRAFT_MAIL_PROVIDER || 'smtp' }}
+
         env:
           GITHUB_READ_TOKEN: ${{ secrets.ORG_READ_TOKEN }}
           GITHUB_TOKEN: ${{ github.token }}
