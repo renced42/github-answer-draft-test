@@ -21,13 +21,29 @@ jobs:
       - name: Kötelező secretek ellenőrzése
         shell: bash
         env:
+          AI_PROVIDER: ${{ vars.DRAFT_AI_PROVIDER || 'groq' }}
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           KNOWLEDGE_REPOSITORY_TOKEN: ${{ secrets.KNOWLEDGE_REPOSITORY_TOKEN }}
         run: |
-          if [[ -z "${GROQ_API_KEY}" ]]; then
-            echo "::error::A GROQ_API_KEY nem érhető el a Github assistant Environmentből."
-            exit 1
-          fi
+          case "${AI_PROVIDER}" in
+            groq)
+              if [[ -z "${GROQ_API_KEY}" ]]; then
+                echo "::error::A GROQ_API_KEY nem érhető el a Github assistant Environmentből."
+                exit 1
+              fi
+              ;;
+            openai)
+              if [[ -z "${OPENAI_API_KEY}" ]]; then
+                echo "::error::Az OPENAI_API_KEY nem érhető el a Github assistant Environmentből."
+                exit 1
+              fi
+              ;;
+            *)
+              echo "::error::A DRAFT_AI_PROVIDER értéke csak groq vagy openai lehet."
+              exit 1
+              ;;
+          esac
           if [[ -z "${KNOWLEDGE_REPOSITORY_TOKEN}" ]]; then
             echo "::error::A KNOWLEDGE_REPOSITORY_TOKEN nem érhető el a Github assistant Environmentből."
             exit 1
@@ -47,7 +63,9 @@ jobs:
           author: ${{ github.event.issue.user.login }}
           email-to: ${{ vars.DRAFT_EMAIL_TO }}
           question-max-chars: ${{ vars.DRAFT_QUESTION_MAX_CHARS || '3000' }}
+          ai-provider: ${{ vars.DRAFT_AI_PROVIDER || 'groq' }}
           groq-model: ${{ vars.DRAFT_GROQ_MODEL || 'openai/gpt-oss-120b' }}
+          openai-model: ${{ vars.DRAFT_OPENAI_MODEL || 'gpt-5.4-mini' }}
           nav-gov-hu-search: "true"
           browser-search: "true"
           knowledge-repository: ${{ vars.KNOWLEDGE_REPOSITORY }}
@@ -59,6 +77,7 @@ jobs:
           GITHUB_READ_TOKEN: ${{ secrets.ORG_READ_TOKEN }}
           GITHUB_TOKEN: ${{ github.token }}
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           KNOWLEDGE_REPOSITORY_TOKEN: ${{ secrets.KNOWLEDGE_REPOSITORY_TOKEN }}
           MAIL_FROM: ${{ secrets.MAIL_FROM }}
           SMTP_HOST: ${{ secrets.SMTP_HOST }}
@@ -76,13 +95,29 @@ jobs:
       - name: Kötelező secretek ellenőrzése
         shell: bash
         env:
+          AI_PROVIDER: ${{ vars.DRAFT_AI_PROVIDER || 'groq' }}
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           KNOWLEDGE_REPOSITORY_TOKEN: ${{ secrets.KNOWLEDGE_REPOSITORY_TOKEN }}
         run: |
-          if [[ -z "${GROQ_API_KEY}" ]]; then
-            echo "::error::A GROQ_API_KEY nem érhető el a Github assistant Environmentből."
-            exit 1
-          fi
+          case "${AI_PROVIDER}" in
+            groq)
+              if [[ -z "${GROQ_API_KEY}" ]]; then
+                echo "::error::A GROQ_API_KEY nem érhető el a Github assistant Environmentből."
+                exit 1
+              fi
+              ;;
+            openai)
+              if [[ -z "${OPENAI_API_KEY}" ]]; then
+                echo "::error::Az OPENAI_API_KEY nem érhető el a Github assistant Environmentből."
+                exit 1
+              fi
+              ;;
+            *)
+              echo "::error::A DRAFT_AI_PROVIDER értéke csak groq vagy openai lehet."
+              exit 1
+              ;;
+          esac
           if [[ -z "${KNOWLEDGE_REPOSITORY_TOKEN}" ]]; then
             echo "::error::A KNOWLEDGE_REPOSITORY_TOKEN nem érhető el a Github assistant Environmentből."
             exit 1
@@ -102,7 +137,9 @@ jobs:
           author: ${{ github.event.discussion.user.login }}
           email-to: ${{ vars.DRAFT_EMAIL_TO }}
           question-max-chars: ${{ vars.DRAFT_QUESTION_MAX_CHARS || '3000' }}
+          ai-provider: ${{ vars.DRAFT_AI_PROVIDER || 'groq' }}
           groq-model: ${{ vars.DRAFT_GROQ_MODEL || 'openai/gpt-oss-120b' }}
+          openai-model: ${{ vars.DRAFT_OPENAI_MODEL || 'gpt-5.4-mini' }}
           nav-gov-hu-search: "true"
           browser-search: "true"
           knowledge-repository: ${{ vars.KNOWLEDGE_REPOSITORY }}
@@ -114,6 +151,7 @@ jobs:
           GITHUB_READ_TOKEN: ${{ secrets.ORG_READ_TOKEN }}
           GITHUB_TOKEN: ${{ github.token }}
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           KNOWLEDGE_REPOSITORY_TOKEN: ${{ secrets.KNOWLEDGE_REPOSITORY_TOKEN }}
           MAIL_FROM: ${{ secrets.MAIL_FROM }}
           SMTP_HOST: ${{ secrets.SMTP_HOST }}
